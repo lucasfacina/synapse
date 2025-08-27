@@ -4,6 +4,7 @@ st.logo("assets/img/sidebar_logo.png", icon_image="assets/img/main_body_logo.png
 
 st.set_page_config(
     page_icon="assets/img/favicon.png",
+    page_title="Sistema Synapse",
 )
 
 
