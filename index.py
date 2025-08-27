@@ -1,7 +1,9 @@
 import streamlit as st
 
-home_page = st.Page("presentation/pages/home.py", title="Início", icon="🏠")
+app = st.navigation({
+    "Início": [
+        st.Page("presentation/pages/home.py", title="Bem-vindo(a)", icon=":material/home:")
+    ],
+})
 
-pg = st.navigation([home_page])
-
-pg.run()
+app.run()
