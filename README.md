@@ -29,7 +29,7 @@ O programa deverá ser escrito em Python, com boa usabilidade, interface amigáv
 Cada uma gravada em arquivo separado.
 
 ```txt
-1. [ ] Cidades: Código da Cidade, Descrição, Estado
+1. [x] Cidades: Código da Cidade, Descrição, Estado
 2. [ ] Especialidades: Código da Especialidade, Descrição, Valor da Consulta, Limite Diário
 3. [ ] Diárias: Código do Dia (AAAAMMDD), Código da Especialidade, Quantidade de Consultas
 4. [ ] Pacientes: Código do Paciente, Nome, Data Nascimento, Endereço, Telefone, Código da Cidade, Peso, Altura
