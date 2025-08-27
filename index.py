@@ -14,8 +14,9 @@ def Page(filename, title, icon, url_path=None):
 
 app = st.navigation({
     "Início": [
-        Page("home", "Bem-vindo(a)", "home")
-    ],
+        Page("home", "Bem-vindo(a)", "waving_hand"),
+        Page("about", "Sobre", "info"),
+    ]
 })
 
 app.run()
