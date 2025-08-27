@@ -6,9 +6,14 @@ st.set_page_config(
     page_icon="assets/img/favicon.png",
 )
 
+
+def Page(filename, title, icon, url_path=None):
+    return st.Page(f"presentation/pages/{filename}.py", title=title, icon=f":material/{icon}:", url_path=url_path)
+
+
 app = st.navigation({
     "Início": [
-        st.Page("presentation/pages/home.py", title="Bem-vindo(a)", icon=":material/home:")
+        Page("home", "Bem-vindo(a)", "home")
     ],
 })
 
