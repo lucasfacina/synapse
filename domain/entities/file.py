@@ -1,4 +1,6 @@
 from enum import Enum, auto
+import uuid
+from dataclasses import dataclass, field
 
 
 class Status(Enum):
@@ -6,19 +8,7 @@ class Status(Enum):
     JUNK = auto()
 
 
+@dataclass
 class File:
-    def __init__(self, entity_name, data):
-        self.entity_name = entity_name
-        self.data = data
-        self.data['status'] = Status.ENABLED
-
-    @property
-    def status(self):
-        return self.data.get('status')
-
-    @status.setter
-    def status(self, value: Status):
-        self.data['status'] = value
-
-    def __repr__(self):
-        return f"{self.entity_name}(data='{self.data}')"
+    id: str = field(default_factory=lambda: str(uuid.uuid4()), kw_only=True)
+    status: Status = field(default=Status.ENABLED, kw_only=True)
