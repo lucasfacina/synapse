@@ -1,123 +1,115 @@
 # clinica.py
 
-from arvore_binaria import BinarySearchTree
 import os
 
-# --- ÁRVORES DE ÍNDICE GLOBAIS ---
-bst_cidades = BinarySearchTree()
-bst_pacientes = BinarySearchTree()
-bst_especialidades = BinarySearchTree()
-bst_medicos = BinarySearchTree()
-bst_exames = BinarySearchTree()
-bst_consultas = BinarySearchTree()
-bst_diarias = BinarySearchTree()
+from arvore_binaria import BinarySearchTree
 
+# --- ÁRVORES DE ÍNDICE GLOBAIS ---
+bst_cidades = BinarySearchTree(
+    "cidades",
+    parser_func=lambda row:
+    None if len(partes := row.strip().split(',')) != 3 else (
+        int(partes[0]),
+        {
+            'codigo': int(partes[0]),
+            'descricao': partes[1],
+            'estado': partes[2]
+        }
+    )
+)
+
+bst_especialidades = BinarySearchTree(
+    "especialidades",
+    parser_func=lambda row:
+    None if len(partes := row.strip().split(',')) != 4 else (
+        int(partes[0]),
+        {
+            'codigo': int(partes[0]),
+            'descricao': partes[1],
+            'valor': float(partes[2]),
+            'limite': int(partes[3])
+        }
+    )
+)
+
+bst_exames = BinarySearchTree(
+    "exames",
+    parser_func=lambda row:
+    None if len(partes := row.strip().split(',')) != 4 else (
+        int(partes[0]),
+        {
+            'codigo': int(partes[0]),
+            'descricao': partes[1],
+            'codigo_especialidade': int(partes[2]),
+            'valor': float(partes[3])
+        }
+    )
+)
+
+bst_pacientes = BinarySearchTree(
+    "pacientes",
+    parser_func=lambda row:
+    None if len(partes := row.strip().split(',')) != 8 else (
+        int(partes[0]),
+        {
+            'codigo': int(partes[0]),
+            'nome': partes[1],
+            'nascimento': partes[2],
+            'endereco': partes[3],
+            'telefone': partes[4],
+            'codigo_cidade': int(partes[5]),
+            'peso': float(partes[6]),
+            'altura': float(partes[7])
+        }
+    )
+)
+
+bst_medicos = BinarySearchTree(
+    "medicos",
+    parser_func=lambda row:
+    None if len(partes := row.strip().split(',')) != 6 else (
+        int(partes[0]),
+        {
+            'codigo': int(partes[0]),
+            'nome': partes[1],
+            'endereco': partes[2],
+            'telefone': partes[3],
+            'codigo_cidade': int(partes[4]),
+            'codigo_especialidade': int(partes[5])
+        }
+    )
+)
+
+bst_consultas = BinarySearchTree(
+    "consultas",
+    parser_func=lambda row:
+    None if len(partes := row.strip().split(',')) != 7 else (
+        int(partes[0]),
+        {
+            'codigo': int(partes[0]),
+            'cod_paciente': int(partes[1]),
+            'cod_medico': int(partes[2]),
+            'cod_exame': int(partes[3]),
+            'data': partes[4],
+            'hora': partes[5],
+            'valor_total': float(partes[6])
+        }
+    )
+)
+
+bst_diarias = BinarySearchTree(
+    "diarias",
+    parser_func=lambda row:
+    None if len(partes := row.strip().split(',')) != 2 else (
+        int(partes[0]),
+        {
+            'chave': int(partes[0]),
+            'quantidade': int(partes[1]),
+        }
+    )
+)
 
 # --- FUNÇÕES GLOBAIS (Carregar, Salvar, Formatar) ---
-def carregar_dados():
-    """Lê todos os arquivos .txt e popula as árvores binárias em memória."""
-    print("Carregando dados do sistema...")
-
-    # 1. Carregar Cidades
-    try:
-        with open('cidades.txt', 'r', encoding='utf-8') as f:
-            for linha in f:
-                partes = linha.strip().split(',')
-                if len(partes) == 3:
-                    codigo, descricao, estado = partes
-                    cidade_dic = {'codigo': int(codigo), 'descricao': descricao, 'estado': estado}
-                    bst_cidades.insert(int(codigo), cidade_dic)
-    except FileNotFoundError:
-        print("Arquivo cidades.txt não encontrado. Será criado um novo.")
-
-    # 2. Carregar Especialidades
-    try:
-        with open('especialidades.txt', 'r', encoding='utf-8') as f:
-            for linha in f:
-                partes = linha.strip().split(',')
-                if len(partes) == 4:
-                    codigo, descricao, valor, limite = partes
-                    especialidade_dic = {'codigo': int(codigo), 'descricao': descricao, 'valor': float(valor),
-                                         'limite': int(limite)}
-                    bst_especialidades.insert(int(codigo), especialidade_dic)
-    except FileNotFoundError:
-        print("Arquivo especialidades.txt não encontrado. Será criado um novo.")
-
-    # 3. Carregar Exames
-    try:
-        with open('exames.txt', 'r', encoding='utf-8') as f:
-            for linha in f:
-                partes = linha.strip().split(',')
-                if len(partes) == 4:
-                    codigo, descricao, cod_esp, valor = partes
-                    exame_dic = {'codigo': int(codigo), 'descricao': descricao, 'codigo_especialidade': int(cod_esp),
-                                 'valor': float(valor)}
-                    bst_exames.insert(int(codigo), exame_dic)
-    except FileNotFoundError:
-        print("Arquivo exames.txt não encontrado. Será criado um novo.")
-
-    # 4. Carregar Pacientes
-    try:
-        with open('pacientes.txt', 'r', encoding='utf-8') as f:
-            for linha in f:
-                partes = linha.strip().split(',')
-                if len(partes) == 8:
-                    codigo, nome, nasc, end, tel, cod_cid, peso, alt = partes
-                    paciente_dic = {
-                        'codigo': int(codigo), 'nome': nome, 'nascimento': nasc,
-                        'endereco': end, 'telefone': tel, 'codigo_cidade': int(cod_cid),
-                        'peso': float(peso), 'altura': float(alt)
-                    }
-                    bst_pacientes.insert(int(codigo), paciente_dic)
-    except FileNotFoundError:
-        print("Arquivo pacientes.txt não encontrado. Será criado um novo.")
-
-    # 5. Carregar Médicos
-    try:
-        with open('medicos.txt', 'r', encoding='utf-8') as f:
-            for linha in f:
-                partes = linha.strip().split(',')
-                if len(partes) == 6:
-                    codigo, nome, end, tel, cod_cid, cod_esp = partes
-                    medico_dic = {
-                        'codigo': int(codigo), 'nome': nome, 'endereco': end,
-                        'telefone': tel, 'codigo_cidade': int(cod_cid),
-                        'codigo_especialidade': int(cod_esp)
-                    }
-                    bst_medicos.insert(int(codigo), medico_dic)
-    except FileNotFoundError:
-        print("Arquivo medicos.txt não encontrado. Será criado um novo.")
-
-    # 6. Carregar Consultas
-    try:
-        with open('consultas.txt', 'r', encoding='utf-8') as f:
-            for linha in f:
-                partes = linha.strip().split(',')
-                if len(partes) == 7:
-                    cod, cod_pac, cod_med, cod_ex, data, hora, val_tot = partes
-                    consulta_dic = {
-                        'codigo': int(cod), 'cod_paciente': int(cod_pac), 'cod_medico': int(cod_med),
-                        'cod_exame': int(cod_ex), 'data': data, 'hora': hora, 'valor_total': float(val_tot)
-                    }
-                    bst_consultas.insert(int(cod), consulta_dic)
-    except FileNotFoundError:
-        print("Arquivo consultas.txt não encontrado. Será criado um novo.")
-
-    # 7. Carregar Diárias (Atenção: a chave é uma STRING)
-    try:
-        with open('diarias.txt', 'r', encoding='utf-8') as f:
-            for linha in f:
-                partes = linha.strip().split(',')
-                if len(partes) == 2:
-                    chave, quantidade = partes
-                    diaria_dic = {'chave': chave, 'quantidade': int(quantidade)}
-                    # A chave da árvore é a própria string, ex: "20250916_1"
-                    bst_diarias.insert(chave, diaria_dic)
-    except FileNotFoundError:
-        print("Arquivo diarias.txt não encontrado. Será criado um novo.")
-
-    print("Dados carregados com sucesso!\n")
-
 
 def salvar_dados_tabela(nome_arquivo, bst):
     """Salva os dados de uma árvore binária em um arquivo .txt."""
@@ -1453,5 +1445,4 @@ def menu_principal():
 
 # --- BLOCO DE EXECUÇÃO PRINCIPAL ---
 if __name__ == "__main__":
-    carregar_dados()
     menu_principal()

@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
+import os
 import sys
+from typing import Callable, Tuple, Dict, Any, Optional
 
 sys.setrecursionlimit(2000)
+
+DATA_FILE_DIRECTORY = "data/"
+DATA_FILE_EXTENSION = ".csv"
+
 
 class Node:
     def __init__(self, key, data):
@@ -10,9 +16,52 @@ class Node:
         self.left = None
         self.right = None
 
+
 class BinarySearchTree:
-    def __init__(self):
+    def __init__(self, file_basename: str, parser_func: Callable[[str], Optional[Tuple[Any, Dict]]]):
         self.root = None
+        self.file_basename = file_basename
+        self._parser = parser_func
+
+        self._load_data_from_file()
+
+    def _load_data_from_file(self):
+        try:
+            os.makedirs(DATA_FILE_DIRECTORY, exist_ok=True)
+        except OSError as e:
+            print(f"ERRO: Não foi possível criar o diretório '{DATA_FILE_DIRECTORY}'. Detalhes: {e}")
+            return  # Interrompe a execução se não puder criar o diretório
+
+        filename = DATA_FILE_DIRECTORY + self.file_basename + DATA_FILE_EXTENSION
+        print(f"Tentando carregar dados de '{filename}'...")
+
+        try:
+            with open(filename, 'r', encoding='utf-8') as f:
+                for row in f:
+                    row = row.strip()
+                    if not row:
+                        continue
+
+                    parsing_result = self._parser(row)
+
+                    if parsing_result:
+                        key, value = parsing_result
+                        self.insert(key, value)
+
+            print("Dados carregados com sucesso!")
+
+
+        except FileNotFoundError:
+            print(f"AVISO: Arquivo '{filename}' não encontrado. Criando um novo arquivo vazio.")
+            try:
+                with open(filename, 'w', encoding='utf-8') as f:
+                    pass
+                print(f"Arquivo '{filename}' criado com sucesso.")
+            except Exception as e:
+                print(f"ERRO: Falha ao tentar criar o arquivo '{filename}'. Detalhes: {e}")
+
+        except Exception as e:
+            print(f"ERRO: Ocorreu um erro inesperado ao processar o arquivo: {e}")
 
     def insert(self, key, data):
         if self.root is None:
@@ -20,7 +69,7 @@ class BinarySearchTree:
         else:
             self._insert_recursive(self.root, key, data)
 
-    def _insert_recursive(self, current_node, key, data): 
+    def _insert_recursive(self, current_node, key, data):
         if key < current_node.key:
             if current_node.left is None:
                 current_node.left = Node(key, data)
@@ -31,7 +80,7 @@ class BinarySearchTree:
                 current_node.right = Node(key, data)
             else:
                 self._insert_recursive(current_node.right, key, data)
-    
+
     def search_with_path(self, key):
         path_visited = []
         current_node = self.root
@@ -55,13 +104,13 @@ class BinarySearchTree:
             self._in_order_traversal(current_node.left, callback)
             callback(current_node.data)
             self._in_order_traversal(current_node.right, callback)
-     
+
     def delete(self, key):
         self.root = self._delete_recursive(self.root, key)
 
     def _delete_recursive(self, current_node, key):
         if current_node is None:
-            return current_node 
+            return current_node
         if key < current_node.key:
             current_node.left = self._delete_recursive(current_node.left, key)
         elif key > current_node.key:
@@ -76,7 +125,7 @@ class BinarySearchTree:
             current_node.key = temp_node.key
             current_node.data = temp_node.data
             current_node.right = self._delete_recursive(current_node.right, temp_node.key)
-            
+
         return current_node
 
     def _find_min_node(self, node):
