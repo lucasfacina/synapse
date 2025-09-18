@@ -45,3 +45,23 @@ def dict_to_csv_line(
     if not newline:
         line = line.rstrip("\n")
     return line
+
+
+def format_date_to_print(data_aaaammdd):
+    """Converte 'AAAAMMDD' para 'DD/MM/AAAA'."""
+    if len(data_aaaammdd) == 8:
+        ano = data_aaaammdd[0:4]
+        mes = data_aaaammdd[4:6]
+        dia = data_aaaammdd[6:8]
+        return f"{dia}/{mes}/{ano}"
+    return data_aaaammdd
+
+
+def format_date_to_save(data_ddmmaaaa):
+    """Converte 'DD/MM/AAAA' para 'AAAAMMDD'."""
+    try:
+        dia, mes, ano = data_ddmmaaaa.split('/')
+        if len(dia) == 2 and len(mes) == 2 and len(ano) == 4:
+            return ano + mes + dia
+    except:
+        return None
