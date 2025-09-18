@@ -6,6 +6,7 @@ from menu.especialidades import menu_especialidades
 from menu.exames import menu_exames
 from menu.medicos import menu_medicos
 from menu.pacientes import menu_pacientes
+from menu.relatorios import menu_relatorios
 
 
 def menu_principal():
