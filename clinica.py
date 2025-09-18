@@ -7,107 +7,39 @@ from arvore_binaria import BinarySearchTree
 # --- ÁRVORES DE ÍNDICE GLOBAIS ---
 bst_cidades = BinarySearchTree(
     "cidades",
-    parser_func=lambda row:
-    None if len(partes := row.strip().split(',')) != 3 else (
-        int(partes[0]),
-        {
-            'codigo': int(partes[0]),
-            'descricao': partes[1],
-            'estado': partes[2]
-        }
-    )
+    properties_key_order=["codigo", "descricao", "estado"]
 )
 
 bst_especialidades = BinarySearchTree(
     "especialidades",
-    parser_func=lambda row:
-    None if len(partes := row.strip().split(',')) != 4 else (
-        int(partes[0]),
-        {
-            'codigo': int(partes[0]),
-            'descricao': partes[1],
-            'valor': float(partes[2]),
-            'limite': int(partes[3])
-        }
-    )
+    properties_key_order=["codigo", "descricao", "valor", "limite"]
 )
 
 bst_exames = BinarySearchTree(
     "exames",
-    parser_func=lambda row:
-    None if len(partes := row.strip().split(',')) != 4 else (
-        int(partes[0]),
-        {
-            'codigo': int(partes[0]),
-            'descricao': partes[1],
-            'codigo_especialidade': int(partes[2]),
-            'valor': float(partes[3])
-        }
-    )
+    properties_key_order=["codigo", "descricao", "codigo_especialidade", "valor"]
 )
 
 bst_pacientes = BinarySearchTree(
     "pacientes",
-    parser_func=lambda row:
-    None if len(partes := row.strip().split(',')) != 8 else (
-        int(partes[0]),
-        {
-            'codigo': int(partes[0]),
-            'nome': partes[1],
-            'nascimento': partes[2],
-            'endereco': partes[3],
-            'telefone': partes[4],
-            'codigo_cidade': int(partes[5]),
-            'peso': float(partes[6]),
-            'altura': float(partes[7])
-        }
-    )
+    properties_key_order=["codigo", "nome", "nascimento", "endereco", "telefone", "codigo_cidade", "peso", "altura"]
 )
 
 bst_medicos = BinarySearchTree(
     "medicos",
-    parser_func=lambda row:
-    None if len(partes := row.strip().split(',')) != 6 else (
-        int(partes[0]),
-        {
-            'codigo': int(partes[0]),
-            'nome': partes[1],
-            'endereco': partes[2],
-            'telefone': partes[3],
-            'codigo_cidade': int(partes[4]),
-            'codigo_especialidade': int(partes[5])
-        }
-    )
+    properties_key_order=["codigo", "nome", "endereco", "telefone", "codigo_cidade", "codigo_especialidade"]
 )
 
 bst_consultas = BinarySearchTree(
     "consultas",
-    parser_func=lambda row:
-    None if len(partes := row.strip().split(',')) != 7 else (
-        int(partes[0]),
-        {
-            'codigo': int(partes[0]),
-            'cod_paciente': int(partes[1]),
-            'cod_medico': int(partes[2]),
-            'cod_exame': int(partes[3]),
-            'data': partes[4],
-            'hora': partes[5],
-            'valor_total': float(partes[6])
-        }
-    )
+    properties_key_order=["codigo", "cod_paciente", "cod_medico", "cod_exame", "data", "hora", "valor_total"]
 )
 
 bst_diarias = BinarySearchTree(
     "diarias",
-    parser_func=lambda row:
-    None if len(partes := row.strip().split(',')) != 2 else (
-        int(partes[0]),
-        {
-            'chave': int(partes[0]),
-            'quantidade': int(partes[1]),
-        }
-    )
+    properties_key_order=["chave", "quantidade"]
 )
+
 
 # --- FUNÇÕES GLOBAIS (Carregar, Salvar, Formatar) ---
 

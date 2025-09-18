@@ -1,12 +1,25 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-from typing import Callable, Tuple, Dict, Any, Optional
 
 sys.setrecursionlimit(2000)
 
 DATA_FILE_DIRECTORY = "data/"
 DATA_FILE_EXTENSION = ".csv"
+
+
+def try_convert(value):
+    """
+    Tenta converter uma string para int, depois para float.
+    Se falhar em ambos, retorna a string original.
+    """
+    try:
+        return int(value)
+    except ValueError:
+        try:
+            return float(value)
+        except ValueError:
+            return value
 
 
 class Node:
@@ -18,10 +31,10 @@ class Node:
 
 
 class BinarySearchTree:
-    def __init__(self, file_basename: str, parser_func: Callable[[str], Optional[Tuple[Any, Dict]]]):
+    def __init__(self, file_basename: str, properties_key_order: list[str]):
         self.root = None
         self.file_basename = file_basename
-        self._parser = parser_func
+        self.properties_order = properties_key_order
 
         self._load_data_from_file()
 
@@ -42,13 +55,14 @@ class BinarySearchTree:
                     if not row:
                         continue
 
-                    parsing_result = self._parser(row)
+                    values_as_str = row.strip().split(',')
+                    if len(values_as_str) == len(self.properties_order):
+                        converted_values = [try_convert(value) for value in values_as_str]
 
-                    if parsing_result:
-                        key, value = parsing_result
-                        self.insert(key, value)
+                        data_dict = dict(zip(self.properties_order, converted_values))
+                        self.insert(converted_values[0], data_dict)
 
-            print("Dados carregados com sucesso!")
+                    print("Dados carregados com sucesso!")
 
 
         except FileNotFoundError:
