@@ -2,7 +2,7 @@
 import os
 import sys
 
-from lib import try_convert
+from lib import try_convert, dict_to_csv_line
 
 sys.setrecursionlimit(2000)
 
@@ -21,7 +21,7 @@ class Node:
 class BinarySearchTree:
     def __init__(self, file_basename: str, properties_key_order: list[str]):
         self.root = None
-        self.file_basename = file_basename
+        self.filename = DATA_FILE_DIRECTORY + file_basename + DATA_FILE_EXTENSION
         self.properties_order = properties_key_order
 
         self._load_data_from_file()
@@ -33,11 +33,10 @@ class BinarySearchTree:
             print(f"ERRO: Não foi possível criar o diretório '{DATA_FILE_DIRECTORY}'. Detalhes: {e}")
             return  # Interrompe a execução se não puder criar o diretório
 
-        filename = DATA_FILE_DIRECTORY + self.file_basename + DATA_FILE_EXTENSION
-        print(f"Tentando carregar dados de '{filename}'...")
+        print(f"Tentando carregar dados de '{self.filename}'...")
 
         try:
-            with open(filename, 'r', encoding='utf-8') as f:
+            with open(self.filename, 'r', encoding='utf-8') as f:
                 for row in f:
                     row = row.strip()
                     if not row:
@@ -48,28 +47,37 @@ class BinarySearchTree:
                         converted_values = [try_convert(value) for value in values_as_str]
 
                         data_dict = dict(zip(self.properties_order, converted_values))
-                        self.insert(converted_values[0], data_dict)
+                        self.insert(converted_values[0], data_dict, should_append_to_file=False)
 
                     print("Dados carregados com sucesso!")
 
 
         except FileNotFoundError:
-            print(f"AVISO: Arquivo '{filename}' não encontrado. Criando um novo arquivo vazio.")
+            print(f"AVISO: Arquivo '{self.filename}' não encontrado. Criando um novo arquivo vazio.")
             try:
-                with open(filename, 'w', encoding='utf-8') as f:
+                with open(self.filename, 'w', encoding='utf-8') as f:
                     pass
-                print(f"Arquivo '{filename}' criado com sucesso.")
+                print(f"Arquivo '{self.filename}' criado com sucesso.")
             except Exception as e:
-                print(f"ERRO: Falha ao tentar criar o arquivo '{filename}'. Detalhes: {e}")
+                print(f"ERRO: Falha ao tentar criar o arquivo '{self.filename}'. Detalhes: {e}")
 
         except Exception as e:
             print(f"ERRO: Ocorreu um erro inesperado ao processar o arquivo: {e}")
 
-    def insert(self, key, data):
+    def write_data_to_file(self):
+        with open(self.filename, 'w', encoding='utf-8') as f:
+            for registry in self.list_all():
+                f.write(dict_to_csv_line(registry, fieldnames=self.properties_order))
+
+    def insert(self, key, data, should_append_to_file=True):
         if self.root is None:
             self.root = Node(key, data)
         else:
             self._insert_recursive(self.root, key, data)
+
+        if should_append_to_file:
+            with open(self.filename, 'a', encoding='utf-8') as f:
+                f.write(dict_to_csv_line(data, fieldnames=self.properties_order))
 
     def _insert_recursive(self, current_node, key, data):
         if key < current_node.key:
@@ -107,8 +115,10 @@ class BinarySearchTree:
             callback(current_node.data)
             self._in_order_traversal(current_node.right, callback)
 
-    def delete(self, key):
+    def delete(self, key, should_write_to_file=True):
         self.root = self._delete_recursive(self.root, key)
+        if should_write_to_file:
+            self.write_data_to_file()
 
     def _delete_recursive(self, current_node, key):
         if current_node is None:

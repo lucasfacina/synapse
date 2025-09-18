@@ -42,20 +42,6 @@ bst_diarias = BinarySearchTree(
 
 
 # --- FUNÇÕES GLOBAIS (Carregar, Salvar, Formatar) ---
-
-def salvar_dados_tabela(nome_arquivo, bst):
-    """Salva os dados de uma árvore binária em um arquivo .txt."""
-    registros = bst.list_all()
-
-    with open(nome_arquivo, 'w', encoding='utf-8') as f:
-        for registro in registros:
-            # Transforma o dicionário de volta em uma string CSV
-            # O join é um jeito elegante de fazer isso
-            valores = [str(v) for v in registro.values()]
-            linha = ",".join(valores)
-            f.write(linha + '\n')
-
-
 def formatar_data_para_exibir(data_aaaammdd):
     """Converte 'AAAAMMDD' para 'DD/MM/AAAA'."""
     if len(data_aaaammdd) == 8:
@@ -124,12 +110,7 @@ def incluir_cidade():
 
         cidade_dic = {'codigo': codigo, 'descricao': descricao, 'estado': estado}
 
-        # 1. Insere na árvore em memória
         bst_cidades.insert(codigo, cidade_dic)
-
-        # 2. Adiciona no final do arquivo físico (persistência)
-        with open('cidades.txt', 'a', encoding='utf-8') as f:
-            f.write(f"{codigo},{descricao},{estado}\n")
 
         print("[SUCESSO] Cidade cadastrada!")
 
@@ -180,7 +161,7 @@ def alterar_cidade():
         novo_estado = input("Novo estado (UF): ").upper()
         if novo_estado: cidade_dic['estado'] = novo_estado
 
-        salvar_dados_tabela('cidades.txt', bst_cidades)
+        bst_cidades.write_data_to_file()
         print("\n[SUCESSO] Dados da cidade atualizados!")
     except ValueError:
         print("[ERRO] O código deve ser um número.")
@@ -222,11 +203,7 @@ def excluir_cidade():
             print("Operação cancelada.")
             return
 
-        # 1. Exclui da árvore em memória
         bst_cidades.delete(codigo)
-
-        # 2. Reescreve o arquivo físico a partir da árvore atualizada
-        salvar_dados_tabela('cidades.txt', bst_cidades)
 
         print("[SUCESSO] Cidade excluída.")
 
@@ -300,11 +277,6 @@ def incluir_paciente():
         }
 
         bst_pacientes.insert(codigo, paciente_dic)
-
-        # Salva a linha no formato correto no .txt
-        linha = f"{codigo},{nome},{nascimento},{endereco},{telefone},{cod_cidade},{peso},{altura}\n"
-        with open('pacientes.txt', 'a', encoding='utf-8') as f:
-            f.write(linha)
 
         print("[SUCESSO] Paciente cadastrado!")
 
@@ -411,8 +383,7 @@ def alterar_paciente():
         if nova_altura_str:
             paciente_dic['altura'] = float(nova_altura_str)
 
-        # Após alterar o dicionário em memória, salvamos o arquivo inteiro
-        salvar_dados_tabela('pacientes.txt', bst_pacientes)
+        bst_pacientes.write_data_to_file()
 
         print("\n[SUCESSO] Dados do paciente atualizados!")
 
@@ -462,7 +433,6 @@ def excluir_paciente():
             return
 
         bst_pacientes.delete(codigo)
-        salvar_dados_tabela('pacientes.txt', bst_pacientes)
 
         print("[SUCESSO] Paciente excluído.")
 
@@ -518,10 +488,6 @@ def incluir_especialidade():
         especialidade_dic = {'codigo': codigo, 'descricao': descricao, 'valor': valor, 'limite': limite}
         bst_especialidades.insert(codigo, especialidade_dic)
 
-        linha = f"{codigo},{descricao},{valor},{limite}\n"
-        with open('especialidades.txt', 'a', encoding='utf-8') as f:
-            f.write(linha)
-
         print("[SUCESSO] Especialidade cadastrada!")
 
     except ValueError:
@@ -569,7 +535,7 @@ def alterar_especialidade():
         novo_limite = input("Novo limite diário: ")
         if novo_limite: esp_dic['limite'] = int(novo_limite)
 
-        salvar_dados_tabela('especialidades.txt', bst_especialidades)
+        bst_especialidades.write_data_to_file()
         print("\n[SUCESSO] Dados da especialidade atualizados!")
     except ValueError:
         print("[ERRO] Verifique os valores numéricos.")
@@ -601,7 +567,6 @@ def excluir_especialidade():
         confirm = input(f"Tem certeza que deseja excluir a especialidade de código {codigo}? (S/N): ").upper()
         if confirm == 'S':
             bst_especialidades.delete(codigo)
-            salvar_dados_tabela('especialidades.txt', bst_especialidades)
             print("[SUCESSO] Especialidade excluída.")
         else:
             print("Operação cancelada.")
@@ -677,10 +642,6 @@ def incluir_medico():
         }
         bst_medicos.insert(codigo, medico_dic)
 
-        linha = f"{codigo},{nome},{endereco},{telefone},{cod_cidade},{cod_especialidade}\n"
-        with open('medicos.txt', 'a', encoding='utf-8') as f:
-            f.write(linha)
-
         print("[SUCESSO] Médico cadastrado!")
 
     except ValueError:
@@ -748,7 +709,7 @@ def alterar_medico():
         # Aqui poderíamos adicionar a lógica para alterar cidade e especialidade,
         # com as devidas validações, mas manteremos simples por enquanto.
 
-        salvar_dados_tabela('medicos.txt', bst_medicos)
+        bst_medicos.write_data_to_file()
         print("\n[SUCESSO] Dados do médico atualizados!")
     except ValueError:
         print("[ERRO] O código deve ser um número.")
@@ -788,7 +749,6 @@ def excluir_medico():
         confirm = input(f"Tem certeza que deseja excluir o médico de código {codigo}? (S/N): ").upper()
         if confirm == 'S':
             bst_medicos.delete(codigo)
-            salvar_dados_tabela('medicos.txt', bst_medicos)
             print("[SUCESSO] Médico excluído.")
         else:
             print("Operação cancelada.")
@@ -853,10 +813,6 @@ def incluir_exame():
                      'valor': valor}
         bst_exames.insert(codigo, exame_dic)
 
-        linha = f"{codigo},{descricao},{cod_especialidade},{valor}\n"
-        with open('exames.txt', 'a', encoding='utf-8') as f:
-            f.write(linha)
-
         print("[SUCESSO] Exame cadastrado!")
 
     except ValueError:
@@ -904,7 +860,7 @@ def alterar_exame():
         novo_valor = input("Novo valor (R$): ")
         if novo_valor: exame_dic['valor'] = float(novo_valor)
 
-        salvar_dados_tabela('exames.txt', bst_exames)
+        bst_exames.write_data_to_file()
         print("\n[SUCESSO] Dados do exame atualizados!")
     except ValueError:
         print("[ERRO] Verifique os valores numéricos.")
@@ -938,7 +894,6 @@ def excluir_exame():
         confirm = input(f"Tem certeza que deseja excluir o exame de código {codigo}? (S/N): ").upper()
         if confirm == 'S':
             bst_exames.delete(codigo)
-            salvar_dados_tabela('exames.txt', bst_exames)
             print("[SUCESSO] Exame excluído.")
         else:
             print("Operação cancelada.")
@@ -1034,10 +989,6 @@ def incluir_consulta():
         }
         bst_consultas.insert(cod_consulta, consulta_dic)
 
-        linha = f"{cod_consulta},{cod_paciente},{cod_medico},{cod_exame},{data_salvar},{hora},{valor_total}\n"
-        with open('consultas.txt', 'a', encoding='utf-8') as f:
-            f.write(linha)
-
         # 5. Atualizar a tabela Diárias (Requisito 5.3)
         if diaria:
             diaria['quantidade'] += 1
@@ -1047,7 +998,7 @@ def incluir_consulta():
             nova_diaria = {'chave': chave_diaria, 'quantidade': 1}
             bst_diarias.insert(chave_diaria, nova_diaria)
 
-        salvar_dados_tabela('diarias.txt', bst_diarias)
+        bst_diarias.write_data_to_file()
         print("[SUCESSO] Consulta agendada e contagem diária atualizada!")
 
     except ValueError:
@@ -1143,7 +1094,6 @@ def excluir_consulta():
 
         # Passo 3: Excluir a consulta da árvore e do arquivo
         bst_consultas.delete(cod_consulta)
-        salvar_dados_tabela('consultas.txt', bst_consultas)
         print("[SUCESSO] Consulta removida.")
 
         # Passo 4: Atualizar (decrementar) a contagem na tabela Diárias
@@ -1151,9 +1101,9 @@ def excluir_consulta():
         if diaria and diaria['quantidade'] > 0:
             diaria['quantidade'] -= 1
             # Deleta o registro antigo e insere o novo, com a contagem atualizada
-            bst_diarias.delete(chave_diaria)
-            bst_diarias.insert(chave_diaria, diaria)
-            salvar_dados_tabela('diarias.txt', bst_diarias)
+            bst_diarias.delete(chave_diaria, should_write_to_file=False)
+            bst_diarias.insert(chave_diaria, diaria, should_append_to_file=False)
+            bst_diarias.write_data_to_file()
             print("[SUCESSO] Contagem diária de consultas foi atualizada.")
         else:
             print(
