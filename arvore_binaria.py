@@ -2,24 +2,12 @@
 import os
 import sys
 
+from lib import try_convert
+
 sys.setrecursionlimit(2000)
 
 DATA_FILE_DIRECTORY = "data/"
 DATA_FILE_EXTENSION = ".csv"
-
-
-def try_convert(value):
-    """
-    Tenta converter uma string para int, depois para float.
-    Se falhar em ambos, retorna a string original.
-    """
-    try:
-        return int(value)
-    except ValueError:
-        try:
-            return float(value)
-        except ValueError:
-            return value
 
 
 class Node:
