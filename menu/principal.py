@@ -15,12 +15,12 @@ def menu_principal():
         os.system('cls' if os.name == 'nt' else 'clear')
         print("--- SISTEMA DE GESTÃO DE CLÍNICA MÉDICA ---")
         print("0. Sair")
-        print("1. Gerenciar Pacientes")
-        print("2. Gerenciar Médicos")
-        print("3. Gerenciar Consultas")
-        print("4. Gerenciar Cidades")
-        print("5. Gerenciar Especialidades")
-        print("6. Gerenciar Exames")
+        print("1. Gerenciar Cidades")
+        print("2. Gerenciar Especialidades")
+        print("3. Gerenciar Pacientes")
+        print("4. Gerenciar Médicos")
+        print("5. Gerenciar Exames")
+        print("6. Gerenciar Consultas")
         print("7. Relatórios de Faturamento")
 
         opcao = input("Escolha uma opção: ")
@@ -29,17 +29,17 @@ def menu_principal():
             print("Saindo do sistema...")
             break
         elif opcao == '1':
-            menu_pacientes()
-        elif opcao == '2':
-            menu_medicos()
-        elif opcao == '3':
-            menu_consultas()
-        elif opcao == '4':
             menu_cidades()
-        elif opcao == '5':
+        elif opcao == '2':
             menu_especialidades()
-        elif opcao == '6':
+        elif opcao == '3':
+            menu_pacientes()
+        elif opcao == '4':
+            menu_medicos()
+        elif opcao == '5':
             menu_exames()
+        elif opcao == '6':
+            menu_consultas()
         elif opcao == '7':
             menu_relatorios()
         else:
