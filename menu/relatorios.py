@@ -1,7 +1,7 @@
 import os
 
 from database import bst_consultas, bst_medicos, bst_especialidades, bst_pacientes, bst_exames, bst_cidades
-from lib import format_date_to_save, format_date_to_print
+from lib import format_date_to_save, format_date_to_print, divider
 from menu.especialidades import listar_especialidades
 from menu.medicos import listar_medicos
 
@@ -144,7 +144,7 @@ def relatorio_geral_consultas():
     # Cabeçalho
     print(
         f"\n{'Cód.':<5} | {'Data':<12} | {'Paciente':<20} | {'Cidade':<15} | {'Médico':<20} | {'Exame':<20} | {'Valor'}")
-    print("-" * 115)  # Ajuste na largura
+    divider()
 
     for consulta in consultas:
         # Buscas cruzadas para obter os nomes
@@ -172,7 +172,7 @@ def relatorio_geral_consultas():
         valor_total_geral += valor_pago
 
     # Rodapé com os totais
-    print("-" * 115)
+    divider()
     print(f"RESUMO GERAL:")
     print(f"  -> Quantidade total de pacientes únicos atendidos: {len(pacientes_atendidos)}")
     print(f"  -> Valor total a ser pago pelos pacientes: R$ {valor_total_geral:.2f}")

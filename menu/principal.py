@@ -1,5 +1,6 @@
 import os
 
+from lib import divider
 from menu.cidades import menu_cidades
 from menu.consultas import menu_consultas
 from menu.especialidades import menu_especialidades
@@ -45,4 +46,4 @@ def menu_principal():
         else:
             print("Opção inválida. Tente novamente.")
 
-        input("\nPressione Enter para continuar...")
+        divider()

@@ -1,6 +1,7 @@
 import os
 
 from database import bst_exames, bst_especialidades
+from lib import divider
 
 
 def menu_exames():
@@ -126,7 +127,7 @@ def listar_exames():
         return
 
     print(f"{'Código':<10} | {'Descrição':<30} | {'Especialidade':<25}")
-    print("-" * 70)
+    divider()
     for exame in lista:
         especialidade = bst_especialidades.search_with_path(exame['codigo_especialidade'])[0]
         nome_especialidade = especialidade['descricao'] if especialidade else "N/A"

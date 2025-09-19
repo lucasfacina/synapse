@@ -1,6 +1,7 @@
 import os
 
 from database import bst_pacientes, bst_cidades
+from lib import divider
 
 
 def menu_pacientes():
@@ -196,7 +197,7 @@ def listar_pacientes():
         return
 
     print(f"{'Código':<10} | {'Nome':<30} | {'Cidade - UF':<30}")
-    print("-" * 75)
+    divider()
 
     for paciente in todos_os_pacientes:
         cod_cidade = paciente['codigo_cidade']

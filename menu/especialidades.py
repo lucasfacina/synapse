@@ -1,6 +1,7 @@
 import os
 
 from database import bst_especialidades
+from lib import divider
 
 
 def menu_especialidades():
@@ -113,7 +114,7 @@ def listar_especialidades():
         return
 
     print(f"{'Código':<10} | {'Descrição':<25} | {'Valor (R$)':<15} | {'Limite Diário'}")
-    print("-" * 75)
+    divider()
     for esp in lista:
         print(f"{esp['codigo']:<10} | {esp['descricao']:<25} | {esp['valor']:<15.2f} | {esp['limite']}")
 

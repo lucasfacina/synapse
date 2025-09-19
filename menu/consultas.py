@@ -1,7 +1,7 @@
 import os
 
 from database import bst_pacientes, bst_medicos, bst_exames, bst_especialidades, bst_diarias, bst_consultas, bst_cidades
-from lib import format_date_to_save, format_date_to_print
+from lib import format_date_to_save, format_date_to_print, divider
 
 
 def menu_consultas():
@@ -135,11 +135,11 @@ def consultar_consulta():
         print(f"\nCódigo da Consulta: {consulta['codigo']}")
         data_formatada = format_date_to_print(consulta['data'])
         print(f"Data: {data_formatada}  Hora: {consulta['hora']}")
-        print("-" * 30)
+        divider()
         print(f"Paciente: {nome_paciente} (Cidade: {nome_cidade_paciente})")
         print(f"Médico: {nome_medico}")
         print(f"Exame: {desc_exame}")
-        print("-" * 30)
+        divider()
         print(f"Valor a Pagar: R$ {consulta['valor_total']:.2f}")
 
     except ValueError:
@@ -155,7 +155,7 @@ def listar_consultas():
         return
 
     print(f"{'Código':<10} | {'Data':<12} | {'Paciente':<25} | {'Médico':<25}")
-    print("-" * 80)
+    divider()
     for consulta in lista:
         paciente = bst_pacientes.search_with_path(consulta['cod_paciente'])[0]
         medico = bst_medicos.search_with_path(consulta['cod_medico'])[0]

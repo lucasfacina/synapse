@@ -1,6 +1,7 @@
 import os
 
 from database import bst_cidades
+from lib import divider
 
 
 def menu_cidades():
@@ -120,7 +121,7 @@ def listar_cidades():
 
     # Imprime um cabeçalho para a tabela
     print(f"{'Código':<10} | {'Descrição':<25} | {'UF':<5}")
-    print("-" * 45)
+    divider()
 
     for cidade in todas_as_cidades:
         print(f"{cidade['codigo']:<10} | {cidade['descricao']:<25} | {cidade['estado']:<5}")

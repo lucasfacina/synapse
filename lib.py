@@ -65,3 +65,6 @@ def format_date_to_save(data_ddmmaaaa):
             return ano + mes + dia
     except:
         return None
+
+def divider():
+    return "-" * 255

@@ -1,6 +1,7 @@
 import os
 
 from database import bst_medicos, bst_cidades, bst_especialidades
+from lib import divider
 
 
 def menu_medicos():
@@ -153,7 +154,7 @@ def listar_medicos():
         return
 
     print(f"{'Código':<10} | {'Nome':<30} | {'Especialidade':<25} | {'Cidade - UF':<25}")
-    print("-" * 100)
+    divider()
     for medico in lista:
         especialidade = bst_especialidades.search_with_path(medico['codigo_especialidade'])[0]
         nome_especialidade = especialidade['descricao'] if especialidade else "N/A"
