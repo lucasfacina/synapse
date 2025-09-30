@@ -49,26 +49,26 @@ Cada uma gravada em arquivo separado.
      A busca, inclusão e exclusão devem ser realizadas utilizando o índice em árvore binária.
 
 2. [x] Ao exibir um paciente na tabela Pacientes, o programa deverá buscar o código da cidade na tabela de Cidades e exibir o nome da cidade e o Estado.
-   1. [x] Ao consultar um Paciente, calcular e exibir o IMC (Índice de Massa Corpol. [ ] e exibir o diagnóstico: Abaixo do peso, Peso normal, Sobrepeso, Obesidade.
+   1. [x] Ao consultar um Paciente, calcular e exibir o IMC (Índice de Massa Corpol.) e exibir o diagnóstico: Abaixo do peso, Peso normal, Sobrepeso, Obesidade.
 
-3. Ao exibir médico na tabela Médicos, o programa deverá buscar o código da cidade na tabela de Cidades e exibir o nome da cidade e o Estado.
+3. [x] Ao exibir médico na tabela Médicos, o programa deverá buscar o código da cidade na tabela de Cidades e exibir o nome da cidade e o Estado.
    1. [x] O programa também deverá buscar o código da especialidade na tabela Especialidades e exibir a descrição e o valor da consulta e o limite diário de consultas.
 
-4. Ao incluir ou consultar dados na Tabela Exames, o programa deve mostrar o nome da especialidade correspondente e o valor do exame.
+4. [x] Ao incluir ou consultar dados na Tabela Exames, o programa deve mostrar o nome da especialidade correspondente e o valor do exame.
 
-5. Ao incluir ou consultar dados na Tabela Consultas, o programa deve mostrar também o nome do Paciente, o nome de sua Cidade, o nome do Médico e a Descrição do Exame.
+5. [x] Ao incluir ou consultar dados na Tabela Consultas, o programa deve mostrar também o nome do Paciente, o nome de sua Cidade, o nome do Médico e a Descrição do Exame.
    1. [x] Antes de inserir uma nova consulta, verificar se ainda há vagas, de acordo com o limite diário da especialidade: quantidade de consultas do dia deve ser menor do que o limite diário da especialidade.
    2. [x] Ao inserir ou consultar uma consulta, o programa deverá mostrar o valor a ser pago pelo paciente, considerando valor da consulta e o valor do exame a ser feito.
    3. [x] Ao inserir ou consultar uma consulta, o programa deverá adicionar uma unidade na Quantidade de Consultas da tabela Diárias.
    4. [x] Ao excluir uma consulta, subtrair 1 no Quantidade de Consultas na tabela Diárias.
 
-6. O programa deverá ter a opção de mostrar o quanto a clínica faturou:
+6. [x] O programa deverá ter a opção de mostrar o quanto a clínica faturou:
    1. [x] Exibir faturamento por dia
    2. [x] Exibir faturamento por período (data inicial e data final)
    3. [x] Exibir faturamento por Médico
    4. [x] Exibir faturamento por Especialidade.
 
-7. Ler todos os registros da tabela de Consultas e exibi-los em ordem crescente de Código da Consulta. Os seguintes dados deverão ser mostrados:
+7. [x] Ler todos os registros da tabela de Consultas e exibi-los em ordem crescente de Código da Consulta. Os seguintes dados deverão ser mostrados:
    Código da Consulta, Nome do Paciente, Nome da Cidade do Paciente, Nome do Médico, Descrição do Exame, Valor a ser pago pelo Paciente
    Ao final, mostrar a quantidade total de pacientes e o valor total a ser pago pelos pacientes.
 ```
