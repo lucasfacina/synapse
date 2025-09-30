@@ -164,8 +164,8 @@ def excluir_medico():
             print("[ERRO] Médico não encontrado.")
             return
 
-        confirm = input(f"Tem certeza que deseja excluir o médico de código {codigo}? (S/N): ").upper()
-        if confirm == 'S':
+        confirmacao = input(f"Tem certeza que deseja excluir o médico de código {codigo}? (S/N): ").upper()
+        if confirmacao.lower() == 's':
             bst_medicos.delete(codigo)
             print("[SUCESSO] Médico excluído.")
         else:

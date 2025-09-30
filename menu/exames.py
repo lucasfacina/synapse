@@ -138,8 +138,8 @@ def excluir_exame():
             print("[ERRO] Exame não encontrado.")
             return
 
-        confirm = input(f"Tem certeza que deseja excluir o exame de código {codigo}? (S/N): ").upper()
-        if confirm == 'S':
+        confirmacao = input(f"Tem certeza que deseja excluir o exame de código {codigo}? (S/N): ").upper()
+        if confirmacao.lower() == 's':
             bst_exames.delete(codigo)
             print("[SUCESSO] Exame excluído.")
         else:

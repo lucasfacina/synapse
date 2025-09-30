@@ -176,8 +176,8 @@ def excluir_consulta():
         cod_especialidade = medico['codigo_especialidade']
         chave_diaria = f"{data_consulta}_{cod_especialidade}"
 
-        confirm = input(f"Tem certeza que deseja excluir a consulta de código {cod_consulta}? (S/N): ").upper()
-        if confirm != 'S':
+        confirmacao = input(f"Tem certeza que deseja excluir a consulta de código {cod_consulta}? (S/N): ").upper()
+        if confirmacao.lower() != 's':
             print("Operação cancelada.")
             return
 

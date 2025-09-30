@@ -83,8 +83,6 @@ def consultar_paciente():
         codigo = int(input("Digite o código do paciente: "))
         paciente, caminho = bst_pacientes.search_with_path(codigo)
 
-        print(f"Caminho percorrido na árvore de pacientes: {' -> '.join(map(str, caminho))}")
-
         if not paciente:
             print("\nPaciente não encontrado.")
             return
@@ -203,7 +201,7 @@ def excluir_paciente():
             return
 
         confirmacao = input(f"Tem certeza que deseja excluir o paciente de código {codigo}? (S/N): ").upper()
-        if confirmacao != 'S':
+        if confirmacao.lower() != 's':
             print("Operação cancelada.")
             return
 

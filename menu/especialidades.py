@@ -122,8 +122,8 @@ def excluir_especialidade():
             print("[ERRO] Especialidade não encontrada.")
             return
 
-        confirm = input(f"Tem certeza que deseja excluir a especialidade de código {codigo}? (S/N): ").upper()
-        if confirm == 'S':
+        confirmacao = input(f"Tem certeza que deseja excluir a especialidade de código {codigo}? (S/N): ").upper()
+        if confirmacao.lower() == 's':
             bst_especialidades.delete(codigo)
             print("[SUCESSO] Especialidade excluída.")
         else:

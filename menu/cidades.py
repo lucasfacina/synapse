@@ -64,8 +64,6 @@ def consultar_cidade():
 
         resultado, caminho = bst_cidades.search_with_path(codigo)
 
-        print(f"Caminho percorrido na árvore: {' -> '.join(map(str, caminho))}")
-
         if resultado:
             print("\n--- DADOS DA CIDADE ---")
             print(f"Código: {resultado['codigo']}")
@@ -129,7 +127,7 @@ def excluir_cidade():
             return
 
         confirmacao = input(f"Tem certeza que deseja excluir a cidade de código {codigo}? (S/N): ").upper()
-        if confirmacao != 'S':
+        if confirmacao.lower() != 's':
             print("Operação cancelada.")
             return
 
