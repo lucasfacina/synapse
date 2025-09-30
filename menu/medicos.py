@@ -5,39 +5,38 @@ from lib import divider
 
 
 def menu_medicos():
-    """Exibe o menu de gerenciamento de médicos."""
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         print("\n--- GERENCIAR MÉDICOS ---")
+        print("0. Voltar ao menu principal")
         print("1. Cadastrar novo médico")
         print("2. Consultar médico por código")
-        print("3. Alterar dados de um médico")  # <-- NOVO
+        print("3. Alterar dados de um médico")
         print("4. Listar todos os médicos")
         print("5. Excluir médico")
-        print("6. Voltar ao menu principal")
 
         opcao = input("Escolha uma opção: ")
 
-        if opcao == '1':
-            incluir_medico()
-        elif opcao == '2':
-            consultar_medico()
-        elif opcao == '3':
-            alterar_medico()
-        elif opcao == '4':
-            listar_medicos()
-        elif opcao == '5':
-            excluir_medico()
-        elif opcao == '6':
-            break
-        else:
-            print("Opção inválida.")
+        match opcao:
+            case '0':
+                break
+            case '1':
+                incluir_medico()
+            case '2':
+                consultar_medico()
+            case '3':
+                alterar_medico()
+            case '4':
+                listar_medicos()
+            case '5':
+                excluir_medico()
+            case _:
+                print("Opção inválida.")
 
         input("\nPressione Enter para continuar...")
 
 
 def incluir_medico():
-    """Cadastra um novo médico no sistema."""
     print("\n--- CADASTRO DE NOVO MÉDICO ---")
     try:
         codigo = int(input("Código do médico: "))
@@ -79,7 +78,6 @@ def incluir_medico():
 
 
 def consultar_medico():
-    """Consulta um médico e exibe seus dados, incluindo cidade e especialidade."""
     print("\n--- CONSULTA DE MÉDICO ---")
     try:
         codigo = int(input("Digite o código do médico: "))
@@ -88,11 +86,9 @@ def consultar_medico():
             print("Médico não encontrado.")
             return
 
-        # Busca cruzada #1: Cidade
         cidade = bst_cidades.search_with_path(medico['codigo_cidade'])[0]
         nome_cidade = f"{cidade['descricao']} - {cidade['estado']}" if cidade else "N/A"
 
-        # Busca cruzada #2: Especialidade (Requisito 3 e 3.1)
         especialidade = bst_especialidades.search_with_path(medico['codigo_especialidade'])[0]
 
         print("\n--- DADOS DO MÉDICO ---")
@@ -113,7 +109,6 @@ def consultar_medico():
 
 
 def alterar_medico():
-    """Altera os dados de um médico existente."""
     print("\n--- ALTERAÇÃO DE DADOS DO MÉDICO ---")
     try:
         codigo = int(input("Digite o código do médico a alterar: "))
@@ -136,9 +131,6 @@ def alterar_medico():
         novo_telefone = input("Novo telefone: ")
         if novo_telefone: medico_dic['telefone'] = novo_telefone
 
-        # Aqui poderíamos adicionar a lógica para alterar cidade e especialidade,
-        # com as devidas validações, mas manteremos simples por enquanto.
-
         bst_medicos.write_data_to_file()
         print("\n[SUCESSO] Dados do médico atualizados!")
     except ValueError:
@@ -146,7 +138,6 @@ def alterar_medico():
 
 
 def listar_medicos():
-    """Lista todos os médicos, mostrando cidade e especialidade."""
     print("\n--- LISTAGEM DE MÉDICOS ---")
     lista = bst_medicos.list_all()
     if not lista:
@@ -159,16 +150,13 @@ def listar_medicos():
         especialidade = bst_especialidades.search_with_path(medico['codigo_especialidade'])[0]
         nome_especialidade = especialidade['descricao'] if especialidade else "N/A"
 
-        # 2. Lógica adicionada para buscar a cidade e o estado
         cidade = bst_cidades.search_with_path(medico['codigo_cidade'])[0]
         cidade_estado = f"{cidade['descricao']} - {cidade['estado']}" if cidade else "N/A"
 
-        # 3. Impressão da linha com todas as informações
         print(f"{medico['codigo']:<10} | {medico['nome']:<30} | {nome_especialidade:<25} | {cidade_estado:<25}")
 
 
 def excluir_medico():
-    """Exclui um médico pelo código."""
     print("\n--- EXCLUSÃO DE MÉDICO ---")
     try:
         codigo = int(input("Digite o código do médico a ser excluído: "))

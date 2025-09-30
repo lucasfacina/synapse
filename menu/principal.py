@@ -11,7 +11,6 @@ from menu.relatorios import menu_relatorios
 
 
 def menu_principal():
-    """Exibe o menu principal e gerencia a navegação."""
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         print("--- SISTEMA DE GESTÃO DE CLÍNICA MÉDICA ---")
@@ -25,25 +24,25 @@ def menu_principal():
         print("7. Relatórios de Faturamento")
 
         opcao = input("Escolha uma opção: ")
-
-        if opcao == '0':
-            print("Saindo do sistema...")
-            break
-        elif opcao == '1':
-            menu_cidades()
-        elif opcao == '2':
-            menu_especialidades()
-        elif opcao == '3':
-            menu_pacientes()
-        elif opcao == '4':
-            menu_medicos()
-        elif opcao == '5':
-            menu_exames()
-        elif opcao == '6':
-            menu_consultas()
-        elif opcao == '7':
-            menu_relatorios()
-        else:
-            print("Opção inválida. Tente novamente.")
+        match opcao:
+            case '0':
+                print("Saindo do sistema...")
+                break
+            case '1':
+                menu_cidades()
+            case '2':
+                menu_especialidades()
+            case '3':
+                menu_pacientes()
+            case '4':
+                menu_medicos()
+            case '5':
+                menu_exames()
+            case '6':
+                menu_consultas()
+            case '7':
+                menu_relatorios()
+            case _:
+                print("Opção inválida. Tente novamente.")
 
         divider()

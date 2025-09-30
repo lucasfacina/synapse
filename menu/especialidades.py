@@ -5,39 +5,37 @@ from lib import divider
 
 
 def menu_especialidades():
-    """Exibe o menu de gerenciamento de especialidades."""
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         print("\n--- GERENCIAR ESPECIALIDADES ---")
+        print("0. Voltar ao menu principal")
         print("1. Cadastrar nova especialidade")
         print("2. Consultar especialidade por código")
-        print("3. Alterar dados de uma especialidade")  # <-- NOVO
+        print("3. Alterar dados de uma especialidade")
         print("4. Listar todas as especialidades")
         print("5. Excluir especialidade")
-        print("6. Voltar ao menu principal")
 
         opcao = input("Escolha uma opção: ")
-
-        if opcao == '1':
-            incluir_especialidade()
-        elif opcao == '2':
-            consultar_especialidade()
-        elif opcao == '3':
-            alterar_especialidade()  # <-- NOVO ELIF
-        elif opcao == '4':
-            listar_especialidades()
-        elif opcao == '5':
-            excluir_especialidade()
-        elif opcao == '6':
-            break
-        else:
-            print("Opção inválida.")
+        match opcao:
+            case '0':
+                break
+            case '1':
+                incluir_especialidade()
+            case '2':
+                consultar_especialidade()
+            case '3':
+                alterar_especialidade()
+            case '4':
+                listar_especialidades()
+            case '5':
+                excluir_especialidade()
+            case _:
+                print("Opção inválida.")
 
         input("\nPressione Enter para continuar...")
 
 
 def incluir_especialidade():
-    """Cadastra uma nova especialidade médica."""
     print("\n--- CADASTRO DE ESPECIALIDADE ---")
     try:
         codigo = int(input("Código da especialidade: "))
@@ -59,7 +57,6 @@ def incluir_especialidade():
 
 
 def consultar_especialidade():
-    """Consulta uma especialidade pelo código."""
     print("\n--- CONSULTA DE ESPECIALIDADE ---")
     try:
         codigo = int(input("Digite o código da especialidade: "))
@@ -76,7 +73,6 @@ def consultar_especialidade():
 
 
 def alterar_especialidade():
-    """Altera os dados de uma especialidade existente."""
     print("\n--- ALTERAÇÃO DE DADOS DA ESPECIALIDADE ---")
     try:
         codigo = int(input("Digite o código da especialidade a alterar: "))
@@ -106,7 +102,6 @@ def alterar_especialidade():
 
 
 def listar_especialidades():
-    """Lista todas as especialidades cadastradas."""
     print("\n--- LISTAGEM DE ESPECIALIDADES ---")
     lista = bst_especialidades.list_all()
     if not lista:
@@ -120,7 +115,6 @@ def listar_especialidades():
 
 
 def excluir_especialidade():
-    """Exclui uma especialidade pelo código."""
     print("\n--- EXCLUSÃO DE ESPECIALIDADE ---")
     try:
         codigo = int(input("Digite o código da especialidade a ser excluída: "))

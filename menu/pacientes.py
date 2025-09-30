@@ -5,7 +5,6 @@ from lib import divider
 
 
 def menu_pacientes():
-    """Exibe o menu de gerenciamento de pacientes."""
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         print("\n--- GERENCIAR PACIENTES ---")
@@ -18,26 +17,26 @@ def menu_pacientes():
 
         opcao = input("Escolha uma opção: ")
 
-        if opcao == '1':
-            incluir_paciente()
-        elif opcao == '2':
-            consultar_paciente()
-        elif opcao == '3':
-            alterar_paciente()
-        elif opcao == '4':
-            listar_pacientes()
-        elif opcao == '5':
-            excluir_paciente()
-        elif opcao == '0':
-            break
-        else:
-            print("Opção inválida.")
+        match opcao:
+            case '0':
+                break
+            case '1':
+                incluir_paciente()
+            case '2':
+                consultar_paciente()
+            case '3':
+                alterar_paciente()
+            case '4':
+                listar_pacientes()
+            case '5':
+                excluir_paciente()
+            case _:
+                print("Opção inválida.")
 
         input("\nPressione Enter para continuar...")
 
 
 def incluir_paciente():
-    """Pede os dados de um novo paciente e o insere no sistema."""
     print("\n--- CADASTRO DE NOVO PACIENTE ---")
     try:
         codigo = int(input("Código do paciente: "))
@@ -50,7 +49,6 @@ def incluir_paciente():
         endereco = input("Endereço: ")
         telefone = input("Telefone: ")
 
-        # Validação da Cidade (Requisito 2)
         while True:
             cod_cidade = int(input("Código da cidade: "))
             cidade_encontrada, _ = bst_cidades.search_with_path(cod_cidade)
@@ -80,7 +78,6 @@ def incluir_paciente():
 
 
 def consultar_paciente():
-    """Pede um código e busca o paciente, mostrando dados da cidade e IMC."""
     print("\n--- CONSULTA DE PACIENTE ---")
     try:
         codigo = int(input("Digite o código do paciente: "))
@@ -92,17 +89,14 @@ def consultar_paciente():
             print("\nPaciente não encontrado.")
             return
 
-        # Busca cruzada: encontrar a cidade do paciente
         cod_cidade = paciente['codigo_cidade']
         cidade, _ = bst_cidades.search_with_path(cod_cidade)
         nome_cidade = f"{cidade['descricao']} - {cidade['estado']}" if cidade else "Cidade não encontrada"
 
-        # Cálculo do IMC
         peso = paciente['peso']
         altura = paciente['altura']
         imc = peso / (altura * altura) if altura > 0 else 0
 
-        diagnostico_imc = ""
         if imc < 18.5:
             diagnostico_imc = "Abaixo do peso"
         elif 18.5 <= imc < 25:
@@ -112,7 +106,6 @@ def consultar_paciente():
         else:
             diagnostico_imc = "Obesidade"
 
-        # Exibição dos resultados
         print("\n--- DADOS DO PACIENTE ---")
         print(f"Código: {paciente['codigo']}")
         print(f"Nome: {paciente['nome']}")
@@ -128,7 +121,6 @@ def consultar_paciente():
 
 
 def alterar_paciente():
-    """Altera os dados de um paciente existente."""
     print("\n--- ALTERAÇÃO DE DADOS DO PACIENTE ---")
     try:
         codigo = int(input("Digite o código do paciente que deseja alterar: "))
@@ -140,37 +132,31 @@ def alterar_paciente():
 
         print("\nDigite os novos dados. Pressione Enter para manter o valor atual.")
 
-        # --- NOME ---
         print(f"Nome atual: {paciente_dic['nome']}")
         novo_nome = input("Novo nome: ")
         if novo_nome:
             paciente_dic['nome'] = novo_nome
 
-        # --- DATA DE NASCIMENTO ---
         print(f"Nascimento atual: {paciente_dic['nascimento']}")
         novo_nascimento = input("Nova data de nascimento (DD/MM/AAAA): ")
         if novo_nascimento:
             paciente_dic['nascimento'] = novo_nascimento
 
-        # --- ENDEREÇO ---
         print(f"Endereço atual: {paciente_dic['endereco']}")
         novo_endereco = input("Novo endereço: ")
         if novo_endereco:
             paciente_dic['endereco'] = novo_endereco
 
-        # --- TELEFONE ---
         print(f"Telefone atual: {paciente_dic['telefone']}")
         novo_telefone = input("Novo telefone: ")
         if novo_telefone:
             paciente_dic['telefone'] = novo_telefone
 
-        # --- PESO ---
         print(f"Peso atual: {paciente_dic['peso']}")
         novo_peso_str = input("Novo peso (kg): ")
         if novo_peso_str:
             paciente_dic['peso'] = float(novo_peso_str)
 
-        # --- ALTURA ---
         print(f"Altura atual: {paciente_dic['altura']}")
         nova_altura_str = input("Nova altura (m): ")
         if nova_altura_str:
@@ -187,7 +173,6 @@ def alterar_paciente():
 
 
 def listar_pacientes():
-    """Lista todos os pacientes cadastrados, mostrando o nome da cidade."""
     print("\n--- LISTAGEM DE TODOS OS PACIENTES ---")
 
     todos_os_pacientes = bst_pacientes.list_all()
@@ -203,15 +188,12 @@ def listar_pacientes():
         cod_cidade = paciente['codigo_cidade']
         cidade, _ = bst_cidades.search_with_path(cod_cidade)
 
-        # 2. Criação da string combinando cidade e estado
         cidade_estado = f"{cidade['descricao']} - {cidade['estado']}" if cidade else "N/A"
 
-        # 3. Impressão da linha com a nova string combinada
         print(f"{paciente['codigo']:<10} | {paciente['nome']:<30} | {cidade_estado:<30}")
 
 
 def excluir_paciente():
-    """Pede um código e exclui o paciente correspondente."""
     print("\n--- EXCLUSÃO DE PACIENTE ---")
     try:
         codigo = int(input("Digite o código do paciente a ser excluído: "))

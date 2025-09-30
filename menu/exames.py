@@ -5,39 +5,38 @@ from lib import divider
 
 
 def menu_exames():
-    """Exibe o menu de gerenciamento de exames."""
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         print("\n--- GERENCIAR EXAMES ---")
+        print("0. Voltar ao menu principal")
         print("1. Cadastrar novo exame")
         print("2. Consultar exame por código")
-        print("3. Alterar dados de um exame")  # <-- NOVO
+        print("3. Alterar dados de um exame")
         print("4. Listar todos os exames")
         print("5. Excluir exame")
-        print("6. Voltar ao menu principal")
 
         opcao = input("Escolha uma opção: ")
 
-        if opcao == '1':
-            incluir_exame()
-        elif opcao == '2':
-            consultar_exame()
-        elif opcao == '3':
-            alterar_exame()
-        elif opcao == '4':
-            listar_exames()
-        elif opcao == '5':
-            excluir_exame()
-        elif opcao == '6':
-            break
-        else:
-            print("Opção inválida.")
+        match opcao:
+            case '0':
+                break
+            case '1':
+                incluir_exame()
+            case '2':
+                consultar_exame()
+            case '3':
+                alterar_exame()
+            case '4':
+                listar_exames()
+            case '5':
+                excluir_exame()
+            case _:
+                print("Opção inválida.")
 
         input("\nPressione Enter para continuar...")
 
 
 def incluir_exame():
-    """Cadastra um novo exame no sistema."""
     print("\n--- CADASTRO DE NOVO EXAME ---")
     try:
         codigo = int(input("Código do exame: "))
@@ -72,7 +71,6 @@ def incluir_exame():
 
 
 def consultar_exame():
-    """Consulta um exame e exibe o nome da sua especialidade (Requisito 4)."""
     print("\n--- CONSULTA DE EXAME ---")
     try:
         codigo = int(input("Digite o código do exame: "))
@@ -93,7 +91,6 @@ def consultar_exame():
 
 
 def alterar_exame():
-    """Altera os dados de um exame existente."""
     print("\n--- ALTERAÇÃO DE DADOS DO EXAME ---")
     try:
         codigo = int(input("Digite o código do exame a alterar: "))
@@ -119,7 +116,6 @@ def alterar_exame():
 
 
 def listar_exames():
-    """Lista todos os exames, mostrando o nome da especialidade."""
     print("\n--- LISTAGEM DE EXAMES ---")
     lista = bst_exames.list_all()
     if not lista:
@@ -135,7 +131,6 @@ def listar_exames():
 
 
 def excluir_exame():
-    """Exclui um exame pelo código."""
     print("\n--- EXCLUSÃO DE EXAME ---")
     try:
         codigo = int(input("Digite o código do exame a ser excluído: "))
