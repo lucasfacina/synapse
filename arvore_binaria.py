@@ -69,6 +69,7 @@ class BinarySearchTree:
             for registry in self.list_all():
                 f.write(dict_to_csv_line(registry, fieldnames=self.properties_order))
 
+    # Requisito 1.1
     def insert(self, key, data, should_append_to_file=True):
         if self.root is None:
             self.root = Node(key, data)
@@ -91,6 +92,7 @@ class BinarySearchTree:
             else:
                 self._insert_recursive(current_node.right, key, data)
 
+    # Requisito 1.2
     def search_with_path(self, key):
         path_visited = []
         current_node = self.root
@@ -104,17 +106,7 @@ class BinarySearchTree:
                 current_node = current_node.right
         return (None, path_visited)
 
-    def list_all(self):
-        records = []
-        self._in_order_traversal(self.root, records.append)
-        return records
-
-    def _in_order_traversal(self, current_node, callback):
-        if current_node is not None:
-            self._in_order_traversal(current_node.left, callback)
-            callback(current_node.data)
-            self._in_order_traversal(current_node.right, callback)
-
+    # Requisito 1.3
     def delete(self, key, should_write_to_file=True):
         self.root = self._delete_recursive(self.root, key)
         if should_write_to_file:
@@ -145,3 +137,15 @@ class BinarySearchTree:
         while current.left is not None:
             current = current.left
         return current
+
+    # Requisito 1.4
+    def list_all(self):
+        records = []
+        self._in_order_traversal(self.root, records.append)
+        return records
+
+    def _in_order_traversal(self, current_node, callback):
+        if current_node is not None:
+            self._in_order_traversal(current_node.left, callback)
+            callback(current_node.data)
+            self._in_order_traversal(current_node.right, callback)

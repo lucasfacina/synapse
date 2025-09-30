@@ -38,6 +38,7 @@ def menu_relatorios():
         input("\nPressione Enter para continuar...")
 
 
+# Requisito 6.1
 def relatorio_faturamento_dia():
     print("\n--- FATURAMENTO POR DIA ---")
     data_usuario = input("Digite a data (DD/MM/AAAA): ")
@@ -55,6 +56,7 @@ def relatorio_faturamento_dia():
     print(f"\nFaturamento total para o dia {data_usuario}: R$ {total_faturado:.2f}")
 
 
+# Requisito 6.2
 def relatorio_faturamento_periodo():
     print("\n--- FATURAMENTO POR PERÍODO ---")
     data_inicio_usuario = input("Digite a data inicial (DD/MM/AAAA): ")
@@ -76,6 +78,7 @@ def relatorio_faturamento_periodo():
     print(f"\nFaturamento total de {data_inicio_usuario} a {data_fim_usuario}: R$ {total_faturado:.2f}")
 
 
+# Requisito 6.3
 def relatorio_faturamento_medico():
     print("\n--- FATURAMENTO POR MÉDICO ---")
     try:
@@ -98,6 +101,7 @@ def relatorio_faturamento_medico():
         print("[ERRO] O código deve ser um número.")
 
 
+# Requisito 6.4
 def relatorio_faturamento_especialidade():
     print("\n--- FATURAMENTO POR ESPECIALIDADE ---")
     try:
@@ -121,6 +125,7 @@ def relatorio_faturamento_especialidade():
         print("[ERRO] O código deve ser um número.")
 
 
+# Requisito 7
 def relatorio_geral_consultas():
     print("\n" + "=" * 80)
     print("RELATÓRIO GERAL DE CONSULTAS".center(80))

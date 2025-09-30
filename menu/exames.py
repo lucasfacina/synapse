@@ -59,6 +59,8 @@ def incluir_exame():
         exame_dic = {
             'codigo': codigo,
             'descricao': descricao,
+
+            # Requisito 4
             'codigo_especialidade': cod_especialidade,
             'valor': valor
         }
@@ -84,6 +86,8 @@ def consultar_exame():
 
         print(f"\nCódigo: {exame['codigo']}")
         print(f"Descrição: {exame['descricao']}")
+
+        # Requisito 4
         print(f"Especialidade: {nome_especialidade}")
         print(f"Valor do Exame: R$ {exame['valor']:.2f}")
     except ValueError:
@@ -127,6 +131,8 @@ def listar_exames():
     for exame in lista:
         especialidade = bst_especialidades.search_with_path(exame['codigo_especialidade'])[0]
         nome_especialidade = especialidade['descricao'] if especialidade else "N/A"
+
+        # Requisito 4
         print(f"{exame['codigo']:<10} | {exame['descricao']:<30} | {nome_especialidade:<25}")
 
 

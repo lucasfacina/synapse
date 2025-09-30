@@ -97,6 +97,8 @@ def consultar_medico():
         print(f"Endereço: {medico['endereco']}")
         print(f"Telefone: {medico['telefone']}")
         print(f"Cidade: {nome_cidade}")
+
+        # Requisito 3.1
         if especialidade:
             print(f"Especialidade: {especialidade['descricao']}")
             print(f"Valor da Consulta: R$ {especialidade['valor']:.2f}")
@@ -151,6 +153,8 @@ def listar_medicos():
         nome_especialidade = especialidade['descricao'] if especialidade else "N/A"
 
         cidade = bst_cidades.search_with_path(medico['codigo_cidade'])[0]
+
+        # Requisito 3
         cidade_estado = f"{cidade['descricao']} - {cidade['estado']}" if cidade else "N/A"
 
         print(f"{medico['codigo']:<10} | {medico['nome']:<30} | {nome_especialidade:<25} | {cidade_estado:<25}")

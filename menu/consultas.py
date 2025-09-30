@@ -35,6 +35,7 @@ def menu_consultas():
 
 def incluir_consulta():
     print("\n--- AGENDAMENTO DE NOVA CONSULTA ---")
+    # Requisito 5
     try:
         cod_paciente = int(input("Código do Paciente: "))
         paciente = bst_pacientes.search_with_path(cod_paciente)[0]
@@ -68,11 +69,14 @@ def incluir_consulta():
 
         qtd_consultas_dia = diaria['quantidade'] if diaria else 0
 
+        # Requisito 5.1
         if qtd_consultas_dia >= especialidade['limite']:
             print(f"[ERRO] Limite de consultas para a especialidade '{especialidade['descricao']}' atingido neste dia.")
             return
 
         valor_total = especialidade['valor'] + exame['valor']
+
+        # Requisito 5.2
         print(f"Valor total (Consulta + Exame): R$ {valor_total:.2f}")
 
         cod_consulta = int(input("Defina um código para esta consulta: "))
@@ -86,6 +90,7 @@ def incluir_consulta():
         }
         bst_consultas.insert(cod_consulta, consulta_dic)
 
+        # Requisito 5.3
         if diaria:
             diaria['quantidade'] += 1
             bst_diarias.delete(chave_diaria)
@@ -105,6 +110,7 @@ def incluir_consulta():
 
 def consultar_consulta():
     print("\n--- DETALHES DA CONSULTA ---")
+    # Requisito 5
     try:
         cod_consulta = int(input("Código da consulta: "))
         consulta = bst_consultas.search_with_path(cod_consulta)[0]
@@ -130,6 +136,7 @@ def consultar_consulta():
         print(f"Médico: {nome_medico}")
         print(f"Exame: {desc_exame}")
         divider()
+        # Requisito 5.2
         print(f"Valor a Pagar: R$ {consulta['valor_total']:.2f}")
 
     except ValueError:
@@ -152,6 +159,7 @@ def listar_consultas():
         nome_medico = medico['nome'] if medico else "N/A"
 
         data_formatada = format_date_to_print(consulta['data'])
+        # Requisito 5
         print(f"{consulta['codigo']:<10} | {data_formatada:<12} | {nome_paciente:<25} | {nome_medico:<25}")
 
 
@@ -186,7 +194,10 @@ def excluir_consulta():
 
         diaria = bst_diarias.search_with_path(chave_diaria)[0]
         if diaria and diaria['quantidade'] > 0:
+
+            # Requisito 5.4
             diaria['quantidade'] -= 1
+
             bst_diarias.delete(chave_diaria, should_write_to_file=False)
             bst_diarias.insert(chave_diaria, diaria, should_append_to_file=False)
             bst_diarias.write_data_to_file()

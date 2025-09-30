@@ -93,6 +93,8 @@ def consultar_paciente():
 
         peso = paciente['peso']
         altura = paciente['altura']
+
+        # Requisito 2.1
         imc = peso / (altura * altura) if altura > 0 else 0
 
         if imc < 18.5:
@@ -186,6 +188,7 @@ def listar_pacientes():
         cod_cidade = paciente['codigo_cidade']
         cidade, _ = bst_cidades.search_with_path(cod_cidade)
 
+        # Requisito 2
         cidade_estado = f"{cidade['descricao']} - {cidade['estado']}" if cidade else "N/A"
 
         print(f"{paciente['codigo']:<10} | {paciente['nome']:<30} | {cidade_estado:<30}")
