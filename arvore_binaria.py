@@ -31,7 +31,7 @@ class BinarySearchTree:
             os.makedirs(DATA_FILE_DIRECTORY, exist_ok=True)
         except OSError as e:
             print(f"ERRO: Não foi possível criar o diretório '{DATA_FILE_DIRECTORY}'. Detalhes: {e}")
-            return  # Interrompe a execução se não puder criar o diretório
+            return
 
         print(f"Tentando carregar dados de '{self.filename}'...")
 
@@ -145,22 +145,3 @@ class BinarySearchTree:
         while current.left is not None:
             current = current.left
         return current
-
-    def reorganize(self):
-        sorted_records = self.list_all()
-        self.root = None
-        self._build_balanced_from_sorted(sorted_records, 0, len(sorted_records) - 1)
-
-    def _build_balanced_from_sorted(self, records, start, end):
-        if start > end:
-            return
-        mid = (start + end) // 2
-        record = records[mid]
-
-        if self.root_key_type == int:
-            self.insert(record['codigo'], record)
-        else:
-            self.insert(record['nome'], record)
-
-        self._build_balanced_from_sorted(records, start, mid - 1)
-        self._build_balanced_from_sorted(records, mid + 1, end)
