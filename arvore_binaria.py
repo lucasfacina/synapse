@@ -71,6 +71,7 @@ class BinarySearchTree:
 
     # Requisito 1.1
     def insert(self, key, data, should_append_to_file=True):
+        key = str(key)
         if self.root is None:
             self.root = Node(key, data)
         else:
@@ -94,6 +95,7 @@ class BinarySearchTree:
 
     # Requisito 1.2
     def search_with_path(self, key):
+        key = str(key)
         path_visited = []
         current_node = self.root
         while current_node is not None:
@@ -108,6 +110,7 @@ class BinarySearchTree:
 
     # Requisito 1.3
     def delete(self, key, should_write_to_file=True):
+        key = str(key)
         self.root = self._delete_recursive(self.root, key)
         if should_write_to_file:
             self.write_data_to_file()
